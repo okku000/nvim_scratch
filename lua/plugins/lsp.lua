@@ -12,18 +12,18 @@ return {
         "j-hui/fidget.nvim",
     },
 
-    config=function()
+    config = function()
         local cmp = require('cmp')
         local cmp_lsp = require("cmp_nvim_lsp")
         require("fidget").setup({})
         require("mason").setup()
         require("mason-lspconfig").setup({
-            ensure_installed={
-                "lua_ls","gopls","tailwindcss","biome","yamlls","sqls",
+            ensure_installed = {
+                "lua_ls", "gopls", "tailwindcss", "biome", "yamlls", "sqls", "pyright"
             },
-            handlers={
+            handlers = {
                 function(server_name)
-                    require("lspconfig")[server_name].setup{}
+                    require("lspconfig")[server_name].setup {}
                 end,
 
                 ["lua_ls"] = function()
@@ -39,7 +39,7 @@ return {
                         }
                     }
                 end,
-             }
+            }
 
         })
 
@@ -69,8 +69,5 @@ return {
                 prefix = "",
             },
         })
-
-
-
     end
 }

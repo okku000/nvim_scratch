@@ -1,6 +1,9 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 vim.keymap.set("i", "jk", "<esc>")
+vim.keymap.set("i", "jj", "<esc>")
+vim.keymap.set("i", "kk", "<esc>")
+vim.keymap.set("i", "kj", "<esc>")
 vim.keymap.set("n", "<leader>o", vim.cmd.Ex, { desc = "Open Netrw file explorer" })
 vim.keymap.set("n", "<leader>w", "<cmd>w<cr>", { desc = "Save file" })
 vim.keymap.set("n", "<leader>wa", "<cmd>wa<cr>", { desc = "Save all files" })
