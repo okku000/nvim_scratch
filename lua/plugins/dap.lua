@@ -1,5 +1,82 @@
 return {
     {
+        "microsoft/vscode-js-debug",
+        build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out"
+    },
+    {
+        "mxsdev/nvim-dap-vscode-js",
+        dependencies = {
+            "mfussenegger/nvim-dap",
+            "microsoft/vscode-js-debug",
+        },
+        config = function()
+            require("dap-vscode-js").setup({
+                -- node-terminal: Launch a Node.js program in a terminal
+                -- pwa-node: Launch a Node.js process in debug mode
+                -- pwa-chrome: Launch Chrome
+                -- pwa-msedge: Launch Microsoft Edge
+                -- node-terminal is needed for the integrated terminal
+                debugger_path = vim.fn.stdpath("data") .. "/lazy/vscode-js-debug",
+                adapters = { 'pwa-node', 'pwa-chrome', 'node-terminal' },
+            })
+
+            for _, language in ipairs({ "typescript", "javascript" }) do
+                require("dap").configurations[language] = {
+                    {
+                        type = "pwa-node",
+                        request = "launch",
+                        name = "Launch file",
+                        runtimeExecutable = "node",
+                        runtimeArgs = {
+                            "--env-file=.env.development",
+                            "--require",
+                            "ts-node/register",
+                        },
+                        env = {
+                            TS_NODE_PROJECT = "${workspaceFolder}/tsconfig.json",
+                        },
+                        program = "${file}",
+                        cwd = "${workspaceFolder}",
+                        sourceMaps = true,
+                        protocol = "inspector",
+                        console = "integratedTerminal",
+                        resolveSourceMapLocations = {
+                            "${workspaceFolder}/**",
+                            "!**/node_modules/**"
+                        },
+                    },
+                    {
+                        type = "pwa-node",
+                        request = "attach",
+                        name = "Attach",
+                        processId = require("dap.utils").pick_process,
+                        cwd = "${workspaceFolder}",
+                        sourceMaps = true,
+                        protocol = "inspector",
+                        outFiles = { "${workspaceFolder}/dist/**/*.js" },
+                    },
+                    {
+                        type = "pwa-node",
+                        request = "launch",
+                        name = "Debug Jest Tests",
+                        runtimeExecutable = "node",
+                        runtimeArgs = {
+                            "./node_modules/jest/bin/jest.js",
+                            "--runInBand",
+                        },
+                        rootPath = "${workspaceFolder}",
+                        cwd = "${workspaceFolder}",
+                        console = "integratedTerminal",
+                        internalConsoleOptions = "neverOpen",
+                        sourceMaps = true,
+                        protocol = "inspector",
+                        outFiles = { "${workspaceFolder}/dist/**/*.js" },
+                    },
+                }
+            end
+        end,
+    },
+    {
         "mfussenegger/nvim-dap",
         config = function()
             local dap = require('dap')
