@@ -19,7 +19,7 @@ return {
         require("mason").setup()
         require("mason-lspconfig").setup({
             ensure_installed = {
-                "lua_ls", "gopls", "tailwindcss", "biome", "yamlls", "sqls", "pyright"
+                "lua_ls", "gopls", "tailwindcss", "biome", "yamlls", "sqls", "pyright", "jdtls"
             },
             handlers = {
                 function(server_name)
