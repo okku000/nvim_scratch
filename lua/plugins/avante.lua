@@ -18,12 +18,11 @@ return {
                 prev = "[x",
             },
         },
-        auto_suggestions_provider = "copilot", -- Since auto-suggestions are a high-frequency operation and therefore expensive, it is recommended to specify an inexpensive provider or even a free provider: copilot
         claude = {
             endpoint = "https://api.anthropic.com",
-            model = "claude-3-5-sonnet-20241022",
+            model = "claude-3-5-sonnet-latest",
             temperature = 0,
-            max_tokens = 4096,
+            max_tokens = 8192,
         },
     },
 
